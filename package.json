@@ -15,6 +15,7 @@
     "type": "git",
     "url": "git+https://github.com/laxmanpokhrel/xmanscript-cli.git"
   },
+  "release": {"branches": ["main"]},
   "keywords": [
     "cli",
     "tools",
