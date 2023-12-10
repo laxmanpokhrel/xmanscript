@@ -1,5 +1,5 @@
 {
-  "name": "@xmanscript/cli",
+  "name": "xmanscript",
   "version": "1.0.0-semantically-released",
   "description": "cli for xmanscript tools",
   "main": "index.js",
