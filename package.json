@@ -1,10 +1,10 @@
 {
-  "name": "@xmanscript/cli",
+  "name": "xmanscript",
   "version": "1.0.0-semantically-released",
   "description": "cli for xmanscript tools",
   "main": "index.js",
   "bin": {
-    "xmanscript": "./bin/cli.js"
+    "xmanscript": "bin/cli.js"
   },
   "type": "module",
   "scripts": {
@@ -15,7 +15,11 @@
     "type": "git",
     "url": "git+https://github.com/laxmanpokhrel/xmanscript-cli.git"
   },
-  "release": {"branches": ["main"]},
+  "release": {
+    "branches": [
+      "main"
+    ]
+  },
   "keywords": [
     "cli",
     "tools",
@@ -32,5 +36,8 @@
     "child-process": "^1.0.2",
     "inquirer": "^9.2.12",
     "semantic-release": "^22.0.0"
+  },
+  "publishConfig": {
+    "access": "public"
   }
 }

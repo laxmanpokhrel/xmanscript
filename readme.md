@@ -1,4 +1,4 @@
-## xmanscript-cli
+## xmanscript-cli-beta
 #### for `xmanscript` tools
 
 Run:
