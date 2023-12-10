@@ -28,7 +28,7 @@ jobs:
       - name: Install dependencies
         run: npm install
       - name: Build project
-        run: npm run build
+        run: npm run build-cli
       - name: Verify the integrity of provenance attestations and registry signatures for installed dependencies
         run: npm audit signatures
       - name: Release

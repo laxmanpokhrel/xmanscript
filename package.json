@@ -8,7 +8,8 @@
   },
   "type": "module",
   "scripts": {
-    "semantic-release": "semantic-release"
+    "semantic-release": "semantic-release",
+    "build-cli": "babel --root-mode upward bin -d dist --ignore node_modules"
   },
   "repository": {
     "type": "git",
