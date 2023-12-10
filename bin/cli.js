@@ -19,7 +19,7 @@ const commandArgs = process.argv;
 const repoName = commandArgs[2];
 
 let gitCheckOutCommand = undefined;
-let installDepsCommand = undefined;
+let installDepsCommand = `cd ${repoName} && npm i`;
 let initializeGitCommand = `cd ${repoName} && rm -rf .git && git init`;
 let setMainBranchCommand = `cd ${repoName} && git branch -M main`;
 let firstGitCommitCommand = `cd ${repoName} && git add . && git commit -m "Initial Commit"`;
@@ -65,19 +65,16 @@ if (endChoice.type === endOptions[0]) {
   //   Minimal react app (vite + ts + tailwind)
   if (frontendOption.type === frontendOptions[0]) {
     gitCheckOutCommand = `git clone --depth 1 -b ${branchName} https://github.com/laxmanpokhrel/xmanscript-react-app-boilerplate ${repoName}`;
-    installDepsCommand = `cd ${repoName} && yarn`;
   }
 
   //   Minimal react app with storybook (vite + ts + tailwind + storybook)
   if (frontendOption.type === frontendOptions[1]) {
     gitCheckOutCommand = `git clone --depth 1 -b ${branchName} https://github.com/laxmanpokhrel/xmanscript-storybook-react-app-boilerplate ${repoName}`;
-    installDepsCommand = `cd ${repoName} && yarn`;
   }
 
   //   Minial storybook (vite + ts + storybook)
   if (frontendOption.type === frontendOptions[2]) {
     gitCheckOutCommand = `git clone --depth 1 -b ${branchName} https://github.com/laxmanpokhrel/xmanscript-storybook-boilerplate ${repoName}`;
-    installDepsCommand = `cd ${repoName} && yarn`;
   }
 }
 
