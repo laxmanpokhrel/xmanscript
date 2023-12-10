@@ -102,14 +102,14 @@ console.log(chalk.bgGreen.white.bold("Initializing git..."));
 const initializeGit = runCommand(initializeGitCommand);
 if (!initializeGit) process.exit(-1);
 
-// // setup main branch to `main`
-// console.log(chalk.bgGreen.white.bold("Setting up main branch..."));
-// const setMainBranch = runCommand(setMainBranchCommand);
-// if (!setMainBranch) process.exit(-1);
+// setup main branch to `main`
+console.log(chalk.bgGreen.white.bold("Setting up main branch..."));
+const setMainBranch = runCommand(setMainBranchCommand);
+if (!setMainBranch) process.exit(-1);
 
-// // make first commit
-// console.log(chalk.bgGreen.white.bold("Making initial commit..."));
-// const firstGitCommit = runCommand(firstGitCommitCommand);
-// if (!firstGitCommit) process.exit(-1);
+// make first commit
+console.log(chalk.bgGreen.white.bold("Making initial commit..."));
+const firstGitCommit = runCommand(firstGitCommitCommand);
+if (!firstGitCommit) process.exit(-1);
 
 console.log("success!!");
