@@ -39,6 +39,7 @@ if (!repoName) {
   console.error(chalk.yellow.bgRed.bold("Please provide a project name."));
   process.exit(-1);
 }
+
 // ask for endOption
 const endChoice = await inquirer.prompt([
   {
@@ -86,6 +87,7 @@ if (endChoice.type === endOptions[1]) {
   process.exit(-1);
 }
 
+// clone the repo
 if (gitCheckOutCommand) {
   console.log("Cloning in the repo...");
   const checkOut = runCommand(gitCheckOutCommand);
