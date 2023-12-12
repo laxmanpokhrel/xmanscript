@@ -22,6 +22,23 @@ let branchName = "main";
 const commandArgs = process.argv;
 const repoName = commandArgs[2];
 
+// Extracting flags from process.argv
+const flags = {};
+for (let i = 0; i < process.argv.length; i++) {
+  const arg = process.argv[i];
+  if (arg.startsWith("--")) {
+    const flag = arg.slice(2);
+    if (i + 1 < process.argv.length && !process.argv[i + 1].startsWith("--")) {
+      flags[flag] = process.argv[i + 1];
+      i++; // Skip the flag argument value
+    } else {
+      flags[flag] = true; // Flag without a value
+    }
+  }
+}
+
+console.log({ flags });
+
 let gitCheckOutCommand = undefined;
 let installDepsCommand = `cd ${repoName} && npm i`;
 let initializeGitCommand = `cd ${repoName} && rm -rf .git && git init && git branch -M main && git add . && git commit -m "Initial Commit"`;
@@ -131,3 +148,7 @@ console.log(
     "-----------------------------------------------------------------------\n"
   )
 );
+
+async function main() {}
+
+main();
