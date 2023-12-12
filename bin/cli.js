@@ -5,6 +5,7 @@ import ora from "ora";
 import util from "util";
 import { exec } from "child_process";
 import chalk from "chalk";
+import fs from "fs";
 
 const execAsync = util.promisify(exec);
 
@@ -84,6 +85,51 @@ function showAvailableFlags() {
     console.log(chalk.white(name) + ": " + chalk.yellow(description));
   });
 }
+async function getGitAuthor() {
+  const spinner = ora("Reading git config ").start();
+
+  try {
+    const author = await execAsync("git config user.name");
+    spinner.succeed();
+    return author.stdout.slice(0, author.stdout.length - 1);
+  } catch (e) {
+    spinner.fail("Failed to read git config. Please set the git config.");
+    process.exit(-1);
+  }
+}
+
+async function configurePackageJson(repoName) {
+  const spinner = ora("Configuring package.json").start();
+
+  fs.readFile(`./${repoName}/package.json`, "utf-8", async (error, data) => {
+    if (error) {
+      spinner.fail(`${chalk.red("Error reading package.json")}: ${error}`);
+      process.exit(-1);
+    }
+    const packageJson = JSON.parse(data);
+
+    // Get git author
+    const author = await getGitAuthor();
+    packageJson.name = repoName;
+    packageJson.author = author;
+    const updatedPackageJson = JSON.stringify(packageJson, null, 2);
+
+    // Write the updated content back to package.json
+    fs.writeFile(
+      `./${repoName}/package.json`,
+      updatedPackageJson,
+      "utf8",
+      (err) => {
+        if (err) {
+          console.error(chalk.red("Error writing file: "), err);
+          spinner.fail();
+          process.exit(-1);
+        }
+        spinner.succeed();
+      }
+    );
+  });
+}
 
 /* Utils end */
 
@@ -96,7 +142,7 @@ async function frontend() {
     {
       type: "list",
       name: "type",
-      message: "Choose a frontend boilerplate option:",
+      message: "Choose a frontend boilerplate option: ",
       choices: [
         ...new Set(
           frontendOptions.reduce((acc, item) => [...acc, item.name], [])
@@ -117,20 +163,23 @@ async function frontend() {
     frontendOptions.find((item) => item.name === frontendOption.type).repo
   } ${repoName}`;
 
-  // clone the repo
+  // Clone the repo
   if (gitCheckOutCommand) {
     const checkOut = await runCommand(gitCheckOutCommand, "Copying files");
     if (!checkOut) process.exit(-1);
   }
 
-  // install dependencies
+  // Configure the package.json name
+  await configurePackageJson(repoName);
+
+  // Install dependencies
   const installedDeps = await runCommand(
     `cd ${repoName} && npm i`,
     "Installing dependencies"
   );
   if (!installedDeps) process.exit(-1);
 
-  // initialize new .git folder
+  // Initialize new .git folder
   const initializeGit = await runCommand(
     `cd ${repoName} && rm -rf .git && git init && git branch -M main && git add . && git commit -m "Initial Commit"`,
     "Initializing project"
