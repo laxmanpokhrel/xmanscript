@@ -1,8 +1,12 @@
 #! /usr/bin/env node
 
-import { execSync } from "child_process";
+import { exec } from "child_process";
 import inquirer from "inquirer";
 import chalk from "chalk";
+import ora from "ora";
+import util from "util";
+
+const execAsync = util.promisify(exec);
 
 // choice options
 const endOptions = ["Frontend", "Backend"];
@@ -20,18 +24,19 @@ const repoName = commandArgs[2];
 
 let gitCheckOutCommand = undefined;
 let installDepsCommand = `cd ${repoName} && npm i`;
-let initializeGitCommand = `cd ${repoName} && rm -rf .git && git init`;
-let setMainBranchCommand = `cd ${repoName} && git branch -M main`;
-let firstGitCommitCommand = `cd ${repoName} && git add . && git commit -m "Initial Commit"`;
+let initializeGitCommand = `cd ${repoName} && rm -rf .git && git init && git branch -M main && git add . && git commit -m "Initial Commit"`;
 
-function runCommand(command) {
+async function runCommand(command, message) {
+  const spinner = ora(message).start();
+
   try {
-    execSync(`${command}`, { stdio: "inherit" });
+    await execAsync(command); // Execute the command asynchronously
+    spinner.succeed();
+    return true;
   } catch (e) {
-    console.error(`Failed to execute ${command}`, e);
+    spinner.fail(`Failed to execute ${command}: ${e.toString()}`);
     return false;
   }
-  return true;
 }
 
 // if no project name then exit
@@ -86,29 +91,43 @@ if (endChoice.type === endOptions[1]) {
 
 // clone the repo
 if (gitCheckOutCommand) {
-  console.log("Cloning in the repo...");
-  const checkOut = runCommand(gitCheckOutCommand);
+  const checkOut = await runCommand(gitCheckOutCommand, "Copying files");
   if (!checkOut) process.exit(-1);
 }
 
 // install dependencies
-console.log(chalk.bgGreen.white.bold("Installing dependencies..."));
-const installedDeps = runCommand(installDepsCommand);
+const installedDeps = await runCommand(
+  installDepsCommand,
+  "Installing dependencies"
+);
 if (!installedDeps) process.exit(-1);
 
 // initialize new .git folder
-console.log(chalk.bgGreen.white.bold("Initializing git..."));
-const initializeGit = runCommand(initializeGitCommand);
+const initializeGit = await runCommand(
+  initializeGitCommand,
+  "Initializing project"
+);
 if (!initializeGit) process.exit(-1);
 
-// setup main branch to `main`
-console.log(chalk.bgGreen.white.bold("Setting up main branch..."));
-const setMainBranch = runCommand(setMainBranchCommand);
-if (!setMainBranch) process.exit(-1);
-
-// make first commit
-console.log(chalk.bgGreen.white.bold("Making initial commit..."));
-const firstGitCommit = runCommand(firstGitCommitCommand);
-if (!firstGitCommit) process.exit(-1);
-
-console.log("success!!");
+console.log(
+  chalk.cyan.bold(
+    "\n-----------------------------------------------------------------------"
+  )
+);
+console.log(
+  chalk.white.bold(
+    "Successfully Initialised: " + chalk.yellowBright(repoName) + "  🚀"
+  )
+);
+console.log(
+  chalk.white.bold(
+    "Run: " +
+      chalk.yellow(`' cd ${repoName} && npm run dev '`) +
+      " to start development server."
+  )
+);
+console.log(
+  chalk.cyan.bold(
+    "-----------------------------------------------------------------------\n"
+  )
+);
