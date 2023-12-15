@@ -11,7 +11,7 @@ const execAsync = util.promisify(exec);
 
 /* Constants */
 const endOptions = ["Frontend", "Backend"];
-const frontendOptions = [
+const frontendOptions: Record<string, string>[] = [
   {
     name: "Minimal react app (vite + ts + tailwind)",
     repo: "https://github.com/laxmanpokhrel/xmanscript-react-app-boilerplate",
@@ -37,7 +37,7 @@ const availableFlags = [
 /* Utils */
 // Extracting flags from process.argv
 function extractFlags() {
-  const flags = {};
+  const flags: Record<string, string | boolean> = {};
   for (let i = 0; i < process.argv.length; i++) {
     const arg = process.argv[i];
     if (arg.startsWith("--")) {
@@ -145,7 +145,13 @@ async function frontend() {
       message: "Choose a frontend boilerplate option: ",
       choices: [
         ...new Set(
-          frontendOptions.reduce((acc, item) => [...acc, item.name], [])
+          frontendOptions.reduce(
+            (acc: string[], item: Record<string, string>) => [
+              ...acc,
+              item.name,
+            ],
+            []
+          )
         ),
       ],
     },
