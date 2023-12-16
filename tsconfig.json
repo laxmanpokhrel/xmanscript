@@ -1,12 +1,12 @@
 {
     "compilerOptions": {
       "isolatedModules": false,
-      "baseUrl": ".",
+      "baseUrl": "./src",
       // "target": "es2015",
       "lib": ["ESNext"],
 
       "target": "ESNext",
-
+      "module": "es2022",
       "moduleResolution": "Node",
       "paths": {
         "@/*": ["./*"]
