@@ -1,12 +1,11 @@
 #! /usr/bin/env node
 
 import inquirer from "inquirer";
-import chalk from "chalk";
-import { extractFlags } from "@/utils";
-import { scriptChoices } from "@/constants";
-import frontend from "@/tasks/frontend";
-import backend from "@/tasks/backend";
-import showAvailableFlags from "./utils/showAvailableFlags";
+import { extractFlags } from "@/src/utils";
+import { scriptChoices } from "@/src/constants";
+import frontend from "@/src/tasks/frontend";
+import backend from "@/src/tasks/backend";
+import showAvailableFlags from "@/src/utils/showAvailableFlags";
 
 async function main() {
   const flags = extractFlags();

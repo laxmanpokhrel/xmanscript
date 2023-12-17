@@ -1,9 +1,9 @@
 import ora from "ora";
-import getGitAuthor from "./getGitAuthor";
 import * as fs from "fs";
 import * as path from "path";
-import { __dirname } from "@/constants";
 import chalk from "chalk";
+import { __dirname } from "@/src/constants";
+import getGitAuthor from "@/src/utils/getGitAuthor";
 
 export default async function configurePackageJson(repoName: string) {
   const spinner = ora("Configuring package.json").start();

@@ -1,7 +1,7 @@
 {
     "compilerOptions": {
       "isolatedModules": false,
-      "baseUrl": "./src",
+      "baseUrl": ".",
       // "target": "es2015",
       "lib": ["ESNext"],
 

@@ -1,6 +1,6 @@
-import { frontendOptions } from "@/constants";
-import { configurePackageJson, getRepoName } from "@/utils";
-import runCommand from "@/utils/runCommand";
+import { frontendOptions } from "@/src/constants";
+import { configurePackageJson, getRepoName } from "@/src/utils";
+import runCommand from "@/src/utils/runCommand";
 import chalk from "chalk";
 import inquirer from "inquirer";
 

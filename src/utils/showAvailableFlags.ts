@@ -1,5 +1,5 @@
-import { availableFlags } from "@/constants";
 import chalk from "chalk";
+import { availableFlags } from "@/src/constants";
 
 export default function showAvailableFlags() {
   availableFlags.forEach(({ name, description }) => {

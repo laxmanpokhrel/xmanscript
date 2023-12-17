@@ -4,7 +4,7 @@ import * as util from "util";
 
 const execAsync = util.promisify(exec);
 
-export default async function runCommand(command, message) {
+export default async function runCommand(command: string, message: string) {
   const spinner = ora(message).start();
   try {
     await execAsync(command);

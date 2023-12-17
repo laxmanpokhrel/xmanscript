@@ -1,3 +1,5 @@
+import { logger } from "@/src/utils/logger";
+
 export default async function backend() {
-  console.log("Yet to create boilerplate for backend.");
+  logger.info("Yet to create boilerplate for backend.");
 }

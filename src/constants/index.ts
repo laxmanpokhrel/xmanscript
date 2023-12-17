@@ -1,3 +1,4 @@
+import { fileURLToPath } from "url";
 import * as path from "path";
 
 export const scriptChoices = ["Frontend", "Backend"];
@@ -26,8 +27,6 @@ export const availableFlags = [
   { name: "--backend", description: "Create backend app" },
   { name: "--help", description: "List all flags" },
 ];
-
-import { fileURLToPath } from "url";
 
 const __filename = fileURLToPath(import.meta.url);
 export const __dirname = path.dirname(__filename);
