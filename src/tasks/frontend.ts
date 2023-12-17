@@ -7,7 +7,7 @@ import inquirer from "inquirer";
 export default async function frontend() {
   const branchName = "main";
 
-  // ask for frontend option
+  // Ask for frontend option
   const frontendOption = await inquirer.prompt([
     {
       type: "list",
