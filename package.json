@@ -2,15 +2,18 @@
   "name": "xmanscript",
   "version": "1.0.0-semantically-released",
   "description": "cli for xmanscript tools",
-  "main": "index.js",
-  "bin": {
-    "xmanscript": "bin/cli.js"
-  },
   "type": "module",
+  "module": "es2020",
   "scripts": {
+    "dev": "tsup --watch",
+    "build": "tsup",
     "semantic-release": "semantic-release",
-    "build-cli": "babel --root-mode upward bin -d dist --ignore node_modules"
+    "typecheck": "tsc --noEmit",
+    "start:dev": "cross-env node dist/index.js",
+    "start": "node dist/index.js"
   },
+  "exports": "./dist/index.js",
+  "bin": "./dist/index.js",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/laxmanpokhrel/xmanscript-cli.git"
@@ -26,14 +29,17 @@
     "xmanscript"
   ],
   "author": "laxmanpokhrel",
-  "license": "ISC",
+  "license": "MIT",
   "bugs": {
     "url": "https://github.com/laxmanpokhrel/xmanscript-cli/issues"
   },
   "homepage": "https://github.com/laxmanpokhrel/xmanscript-cli#readme",
   "dependencies": {
+    "@types/inquirer": "^9.0.7",
     "chalk": "^5.3.0",
     "child-process": "^1.0.2",
+    "cross-env": "^7.0.3",
+    "fs-extra": "^11.2.0",
     "inquirer": "^9.2.12",
     "ora": "^7.0.1",
     "semantic-release": "^22.0.0",
@@ -41,5 +47,11 @@
   },
   "publishConfig": {
     "access": "public"
+  },
+  "devDependencies": {
+    "@types/fs-extra": "^11.0.4",
+    "@types/node": "^20.10.4",
+    "tsup": "^8.0.1",
+    "typescript": "^5.3.3"
   }
 }

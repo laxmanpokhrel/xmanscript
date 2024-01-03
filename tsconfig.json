@@ -1,0 +1,17 @@
+{
+    "compilerOptions": {
+      "isolatedModules": false,
+      "baseUrl": ".",
+      // "target": "es2015",
+      "lib": ["ESNext"],
+
+      "target": "ESNext",
+      "module": "es2022",
+      "moduleResolution": "Node",
+      "paths": {
+        "@/*": ["./*"]
+      }
+    },
+    "include": ["src/**/*.ts"],
+    "exclude": ["node_modules"]
+  }
