@@ -7,6 +7,7 @@ import frontend from "@/src/tasks/frontend";
 import backend from "@/src/tasks/backend";
 import createRelease from "@/src/tasks/createRelease";
 import showAvailableFlags from "@/src/utils/showAvailableFlags";
+import createReleaseWorkflow from "./tasks/createReleaseWorkflow";
 
 async function main() {
   const flags = extractFlags();
@@ -48,7 +49,7 @@ async function main() {
     }
     // Create release workflow
     if (endChoice.type === scriptChoices[3]) {
-      await backend();
+      await createReleaseWorkflow();
     }
   }
 }

@@ -2,6 +2,7 @@ import * as fs from "fs";
 import * as util from "util";
 import { logger } from "@/src/utils/logger";
 import inquirer from "inquirer";
+import chalk from "chalk";
 
 const writeFileAsync = util.promisify(fs.writeFile);
 const readFileAsync = util.promisify(fs.readFile);
@@ -80,6 +81,7 @@ export default async function createRelease() {
     } catch (error) {
       if (error.code === "ENOENT") {
         // File doesn't exist, create it with default content
+
         const defaultConfig = { releaseType: "" };
         await writeFileAsync(
           ".release/config.json",
@@ -93,6 +95,7 @@ export default async function createRelease() {
       ".release/config.json",
       "utf-8"
     );
+
     const configFile = JSON.parse(configFileContent);
     const config = { ...configFile, releaseType: releaseType.value };
     await writeFileAsync(
@@ -101,4 +104,21 @@ export default async function createRelease() {
     );
     logger.info("Release type added to config.");
   }
+
+  // Success message
+  console.log(
+    chalk.cyan.bold(
+      "\n-----------------------------------------------------------------------"
+    )
+  );
+  console.log(
+    chalk.white.bold(
+      "You can now stage the changes just created and push to release branch for release."
+    )
+  );
+  console.log(
+    chalk.cyan.bold(
+      "-----------------------------------------------------------------------\n"
+    )
+  );
 }
