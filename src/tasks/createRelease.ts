@@ -1,26 +1,16 @@
 import * as fs from "fs";
+import * as util from "util";
 import { logger } from "@/src/utils/logger";
 import inquirer from "inquirer";
-import * as util from "util";
 
 const writeFileAsync = util.promisify(fs.writeFile);
 const readFileAsync = util.promisify(fs.readFile);
 const accessAsync = util.promisify(fs.access);
 const mkdirAsync = util.promisify(fs.mkdir);
+const rmdirAsync = util.promisify(fs.rm);
 
 export default async function createRelease() {
   logger.info("In progress.");
-
-  // Ensure the .release directory exists
-  try {
-    await accessAsync(".release", fs.constants.F_OK);
-  } catch (error) {
-    if (error.code === "ENOENT") {
-      // Directory doesn't exist, create it
-      await mkdirAsync(".release");
-      logger.info("Created .release directory.");
-    }
-  }
 
   // Read tag
   const tag = await inquirer.prompt([
@@ -46,6 +36,27 @@ export default async function createRelease() {
     },
   ]);
 
+  // Check if .release directory exists and delete it if it does
+  try {
+    await accessAsync(".release", fs.constants.F_OK);
+    await rmdirAsync(".release", { recursive: true });
+    logger.info(".release directory deleted.");
+  } catch (error) {
+    if (error.code !== "ENOENT") {
+      // Log if there's an error other than directory not found
+      logger.error("Error deleting .release directory:", error);
+    }
+  }
+
+  // Ensure the .release directory exists
+  try {
+    await mkdirAsync(".release");
+    logger.info("Created .release directory.");
+  } catch (error) {
+    logger.error("Error creating .release directory:", error);
+    return; // Exit function if there's an error creating the directory
+  }
+
   // 1. If there are releaseNotes then create a file named .release/release-notes.md
   if (releaseNotes.value) {
     await writeFileAsync(".release/release-notes.md", releaseNotes.value);
@@ -53,7 +64,7 @@ export default async function createRelease() {
   }
 
   // 2. If there is a tag, add the tag to .release/config.json
-  if (tag.value) {
+  if (tag.value.length) {
     const config = { tag: tag.value };
     await writeFileAsync(
       ".release/config.json",
@@ -69,7 +80,7 @@ export default async function createRelease() {
     } catch (error) {
       if (error.code === "ENOENT") {
         // File doesn't exist, create it with default content
-        const defaultConfig = { tag: "", releaseType: "" };
+        const defaultConfig = { releaseType: "" };
         await writeFileAsync(
           ".release/config.json",
           JSON.stringify(defaultConfig, null, 2)
@@ -90,8 +101,4 @@ export default async function createRelease() {
     );
     logger.info("Release type added to config.");
   }
-
-  console.log("🚦 ~ createRelease ~ tag:", tag);
-  console.log("🚦 ~ createRelease ~ releaseNotes:", releaseNotes);
-  console.log("🚦 ~ createRelease ~ releaseType:", releaseType);
 }
