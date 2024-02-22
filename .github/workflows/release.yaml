@@ -1,0 +1,88 @@
+name: Release Test
+on:
+  push:
+    branches:
+      - main
+permissions:
+  contents: write
+jobs:
+  release:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install jq
+        run: |
+          sudo apt-get update
+          sudo apt-get install jq
+
+      - name: Setup node version
+        uses: actions/setup-node@v4
+        with:
+          node-version: '*'
+          registry-url: 'https://registry.npmjs.org'
+
+      - name: Read release props
+        id: read-release-props
+        run: bash .github/scripts/release.sh 2>&1 | tee -a get-release-props-logs.log
+
+      - name: Upload log file
+        uses: actions/upload-artifact@v4
+        with:
+          name: get-release-props-logs
+          path: get-release-props-logs.log
+
+      - name: Display outputs
+        run: |
+          echo "tag=${{steps.read-release-props.outputs.tag}}"
+          echo "release-notes=${{steps.read-release-props.outputs.release-notes}}"
+          echo "final-release-version=${{steps.read-release-props.outputs.final-release-version}}"
+
+      - name: Install yarn
+        run: npm install --global yarn
+
+      - name: Debug variables
+        run: |
+          echo "package-version: ${{steps.read-release-props.outputs.package-version}}"
+          echo "final-release-version: ${{steps.read-release-props.outputs.final-release-version}}"
+
+      - name: Bump version & push
+        # if: steps.read-release-props.outcome.package-version != steps.read-release-props.outputs.final-release-version
+        continue-on-error: true
+        run: |
+          USER_NAME='laxmanpokhel_actions'
+          USER_EMAIL='laxmanpokhrel@users.noreply.github.com'
+
+          # Set the git configs
+          git config --global user.name $USER_NAME
+          git config --global user.email $USER_EMAIL
+
+          # Update the version in package.json, and commit & tag the change:
+          npm version ${{steps.read-release-props.outputs.final-release-version}} -m "chore(Github Actions-$(date -u +"%Y-%m-%d %H:%M:%S")): Deploy package to NPM"
+          git push && git push --tags
+
+      - name: Install package
+        run: yarn install
+
+      - name: Build package
+        run: yarn build
+
+      - name: Publish package
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_PUBLISH_TOKEN }}
+        run: |
+          npm publish --tag ${{steps.read-release-props.outputs.tag}}
+
+      - name: Create release
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          tag="v-${{ steps.read-release-props.outputs.tag }}"
+          # Remove the leading 'v' from the tag
+          title="${tag}"
+          gh release create "$tag" \
+            --repo="$GITHUB_REPOSITORY" \
+            --title="$title" \
+            --notes="${{ steps.read-release-props.outputs.release-notes }}"
