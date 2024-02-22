@@ -5,6 +5,7 @@ import { extractFlags } from "@/src/utils";
 import { scriptChoices } from "@/src/constants";
 import frontend from "@/src/tasks/frontend";
 import backend from "@/src/tasks/backend";
+import createRelease from "@/src/tasks/createRelease";
 import showAvailableFlags from "@/src/utils/showAvailableFlags";
 
 async function main() {
@@ -43,7 +44,7 @@ async function main() {
     }
     // Create release
     if (endChoice.type === scriptChoices[2]) {
-      await backend();
+      await createRelease();
     }
     // Create release workflow
     if (endChoice.type === scriptChoices[3]) {
