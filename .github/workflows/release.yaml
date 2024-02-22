@@ -36,8 +36,6 @@ jobs:
 
       - name: Display outputs
         run: |
-          echo "tag=${{steps.read-release-props.outputs.tag}}"
-          echo "release-notes=${{steps.read-release-props.outputs.release-notes}}"
           echo "final-release-version=${{steps.read-release-props.outputs.final-release-version}}"
 
       - name: Install yarn
@@ -45,7 +43,11 @@ jobs:
 
       - name: Debug variables
         run: |
+          echo "tag=${{steps.read-release-props.outputs.tag}}"
+          echo "release-notes=${{steps.read-release-props.outputs.release-notes}}"
           echo "package-version: ${{steps.read-release-props.outputs.package-version}}"
+          echo "release-type: ${{steps.read-release-props.outputs.release-type}}"
+          echo "final-release-version: ${{steps.read-release-props.outputs.final-release-version}}"
           echo "final-release-version: ${{steps.read-release-props.outputs.final-release-version}}"
 
       - name: Bump version & push
