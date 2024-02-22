@@ -21,8 +21,8 @@ jobs:
       - name: Setup node version
         uses: actions/setup-node@v4
         with:
-          node-version: '*'
-          registry-url: 'https://registry.npmjs.org'
+          node-version: "*"
+          registry-url: "https://registry.npmjs.org"
 
       - name: Read release props
         id: read-release-props
@@ -71,7 +71,7 @@ jobs:
 
       - name: Publish package
         env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_PUBLISH_TOKEN }}
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
         run: |
           npm publish --tag ${{steps.read-release-props.outputs.tag}}
 
