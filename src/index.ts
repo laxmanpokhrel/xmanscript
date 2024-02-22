@@ -41,6 +41,14 @@ async function main() {
     if (endChoice.type === scriptChoices[1]) {
       await backend();
     }
+    // Create release
+    if (endChoice.type === scriptChoices[2]) {
+      await backend();
+    }
+    // Create release workflow
+    if (endChoice.type === scriptChoices[3]) {
+      await backend();
+    }
   }
 }
 main();
