@@ -65,6 +65,9 @@ jobs:
           # Create a checkout branch name
           checkout_branch_name=release-${{steps.read-release-props.outputs.final-release-version}}
 
+          # Check Status
+          git status
+
           # Stash before checkout 
           git stash save --include-untracked
 
