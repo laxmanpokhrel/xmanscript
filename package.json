@@ -1,6 +1,6 @@
 {
   "name": "xmanscript-test",
-  "version": "1.0.17",
+  "version": "1.0.20",
   "description": "cli for xmanscript tools",
   "type": "module",
   "module": "es2020",
