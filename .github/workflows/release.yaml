@@ -78,10 +78,9 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          tag-without-v=$(echo "${{ steps.read-release-props.outputs.tag }}" | sed 's/^v//')
-          tag="v-${tag-without-v}"
+          tag="${{ steps.read-release-props.outputs.tag }}"
           title="${tag}"
-           gh release create "$tag" \
+          gh release create "$tag" \
             --repo="$GITHUB_REPOSITORY" \
             --title="$title" \
             --notes="${{ steps.read-release-props.outputs.release-notes }}"
