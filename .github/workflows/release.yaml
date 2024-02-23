@@ -103,6 +103,10 @@ jobs:
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
+          git status
+          git add .
+          git commit -m "feat: published version ${{steps.read-release-props.outputs.final-release-version}}"
+
           # Push the updated version new checkout branch
           git push --set-upstream origin ${{steps.branch-checkout-details.outputs.checkout_branch_name}}
 
