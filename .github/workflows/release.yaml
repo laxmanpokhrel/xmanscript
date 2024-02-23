@@ -119,6 +119,6 @@ jobs:
           --base ${{steps.branch-checkout-details.outputs.current_branch}} \
           --title "version ${{steps.read-release-props.outputs.final-release-version}}" \
           --body |
-              ### version: ${{steps.read-release-props.outputs.final-release-version}}
-              ##### Date: $(date -u +"%Y-%m-%d %H:%M:%S")" 
+            ### version: ${{steps.read-release-props.outputs.final-release-version}}
+            ##### Date: $(date -u +"%Y-%m-%d %H:%M:%S")" 
           --no-maintainer-edit
