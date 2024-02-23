@@ -1,6 +1,10 @@
 # Change directory to the root of the project
 cd "$(git rev-parse --show-toplevel)"
 
+echo "=========================================================="
+echo "=                                                        ="
+echo "=========================================================="
+
 # Declerations
 RELEASE_CONFIG_FILE=null
 RELEASE_TYPE=null
@@ -105,13 +109,14 @@ fi
 # Check if release notes are available
 echo "- reading release notes"
 RELEASE_NOTES=$(cat .release/release-notes.md)
+
 if [ $? != 0 ]; then
     echo "- release notes not provided"
     RELEASE_NOTES=null
     # exit 1
 fi
 
-echo "-----------------------------"
+echo "---"
 echo "- RELEASE_NOTES: $RELEASE_NOTES"
 echo "- PACKAGE_NAME: $PACKAGE_NAME"
 echo "- PACKAGE_VERSION: $PACKAGE_VERSION"
