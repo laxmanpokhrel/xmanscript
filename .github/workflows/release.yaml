@@ -27,8 +27,10 @@ jobs:
 
       - name: Read release props
         id: read-release-props
+        run: bash .github/scripts/release.sh 2>&1 | tee -a get-release-props-logs.log
+
+      - name: Commit logs
         run: |
-          bash .github/scripts/release.sh 2>&1 | tee -a get-release-props-logs.log
           git add .
           git commit -m "ci: Release props logs generated."
 
