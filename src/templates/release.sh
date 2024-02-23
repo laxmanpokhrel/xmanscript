@@ -1,3 +1,6 @@
+# Change directory to the root of the project
+cd "$(git rev-parse --show-toplevel)"
+
 # Declerations
 RELEASE_CONFIG_FILE=null
 RELEASE_TYPE=null
@@ -10,12 +13,12 @@ PACKAGE_NPM_VERSION=null
 FINAL_RELEASE_VERSION=null
 
 # Check if release config file is available
-echo "- reading release-config.json file"
-if [ -f ".release/release-config.json" ]; then
-    echo "- '.release/release-config.json' file found"
-    RELEASE_CONFIG_FILE=$(cat .release/release-config.json)
+echo "- reading config.json file"
+if [ -f ".release/config.json" ]; then
+    echo "- '.release/config.json' file found"
+    RELEASE_CONFIG_FILE=$(cat .release/config.json)
 else
-    echo "- '.release/release-config.json' file not found"
+    echo "- '.release/config.json' file not found"
     echo "- abort"
     exit 1
 fi
