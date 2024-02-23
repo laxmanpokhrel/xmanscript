@@ -102,7 +102,7 @@ jobs:
       - name: Push and raise a PR
         run: |
           # Push the updated version new checkout branch
-          git push origin ${{steps.branch-checkout-details.outputs.checkout_branch_name}}
+          git push --set-upstream origin ${{steps.branch-checkout-details.outputs.checkout_branch_name}}
 
           # Create PR for the release
           gh pr create \
