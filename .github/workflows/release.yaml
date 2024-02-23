@@ -27,7 +27,10 @@ jobs:
 
       - name: Read release props
         id: read-release-props
-        run: bash .github/scripts/release.sh 2>&1 | tee -a get-release-props-logs.log
+        run: |
+          bash .github/scripts/release.sh 2>&1 | tee -a get-release-props-logs.log
+          git add .
+          git commit -m "ci: Release props logs generated."
 
       - name: Upload log file
         uses: actions/upload-artifact@v4
@@ -64,8 +67,6 @@ jobs:
 
           # Create a checkout branch name
           checkout_branch_name=release-${{steps.read-release-props.outputs.final-release-version}}
-
-          echo $(git status)
 
           # Checkout to new branch
           git checkout -b $checkout_branch_name
