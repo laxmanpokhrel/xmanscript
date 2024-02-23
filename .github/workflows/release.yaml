@@ -66,7 +66,7 @@ jobs:
 
 
           # Switch to new branch
-          git checkout -b ${checkout-branch-name}
+          git checkout -b ${checkout_branch_name}
 
           # Update the version in package.json, and commit & tag the change:
           npm version ${{steps.read-release-props.outputs.final-release-version}} -m "chore(Github Actions-$(date -u +"%Y-%m-%d %H:%M:%S")): Deploy package to NPM"
