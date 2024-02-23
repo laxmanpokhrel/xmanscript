@@ -48,7 +48,7 @@ jobs:
 
       - name: Checkout to new branch and update package json with new version
         # if: steps.read-release-props.outcome.package-version != steps.read-release-props.outputs.final-release-version
-        continue-on-error: true
+        # continue-on-error: true
         id: branch-checkout-details
         run: |
           USER_NAME='laxmanpokhel_actions'
@@ -59,8 +59,9 @@ jobs:
           git config --global user.email $USER_EMAIL
 
           # Read current branch
-          current-branch=echo ${git branch}
+          current_branch=$(git rev-parse --abbrev-ref HEAD)
 
+          # Create a checkout branch name
           checkout-branch-name=release-${{steps.read-release-props.outputs.final-release-version}}
 
 
