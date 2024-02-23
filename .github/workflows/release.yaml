@@ -86,7 +86,7 @@ jobs:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
         run: |
           npm pkg fix
-          npm publish --tag ${{steps.read-release-props.outputs.tag}}
+          npm publish
 
       - name: Create release
         env:
