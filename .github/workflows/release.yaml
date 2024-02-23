@@ -71,6 +71,7 @@ jobs:
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
         run: |
+          npm pkg fix
           npm publish --tag ${{steps.read-release-props.outputs.tag}}
 
       - name: Create release
@@ -78,7 +79,6 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           tag="${{ steps.read-release-props.outputs.tag }}"
-          # Remove the leading 'v' from the tag
           title="${tag}"
           gh release create "$tag" \
             --repo="$GITHUB_REPOSITORY" \
