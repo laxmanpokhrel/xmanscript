@@ -1,6 +1,6 @@
 {
   "name": "xmanscript-test",
-  "version": "1.0.4",
+  "version": "1.0.17",
   "description": "cli for xmanscript tools",
   "type": "module",
   "module": "es2020",
@@ -13,7 +13,9 @@
     "start": "node dist/index.js"
   },
   "exports": "./dist/index.js",
-  "bin": "./dist/index.js",
+  "bin": {
+    "xmanscript-test": "dist/index.js"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/laxmanpokhrel/xmanscript-cli.git"
