@@ -65,11 +65,16 @@ jobs:
           # Create a checkout branch name
           checkout_branch_name=release-${{steps.read-release-props.outputs.final-release-version}}
 
-          # Stage changes
-          git add .
+          echo $(git status)
 
-          # Commit the changes
-          git commit -m "chore: Update package version to ${{steps.read-release-props.outputs.final-release-version}}"
+          # Checkout to new branch
+          git checkout -b $checkout_branch_name
+
+          # # Stage changes
+          # git add .
+
+          # # Commit the changes
+          # git commit -m "chore: Update package version to ${{steps.read-release-props.outputs.final-release-version}}"
 
           # Update the version in package.json, and commit & tag the change:
           npm version ${{steps.read-release-props.outputs.final-release-version}} -m "chore(Github Actions-$(date -u +"%Y-%m-%d %H:%M:%S")): Deploy package to NPM"
