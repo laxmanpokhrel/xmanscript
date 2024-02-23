@@ -62,7 +62,7 @@ jobs:
           current_branch=$(git rev-parse --abbrev-ref HEAD)
 
           # Create a checkout branch name
-          checkout-branch-name=release-${{steps.read-release-props.outputs.final-release-version}}
+          checkout_branch_name=release-${{steps.read-release-props.outputs.final-release-version}}
 
 
           # Switch to new branch
@@ -102,11 +102,11 @@ jobs:
       - name: Push and raise a PR
         run: |
           # Push the updated version new checkout branch
-          git push origin ${{steps.branch-checkout-details.outputs.checkout-branch-name}}
+          git push origin ${{steps.branch-checkout-details.outputs.checkout_branch_name}}
 
           # Create PR for the release
           gh pr create \
-          --base ${{steps.branch-checkout-details.outputs.current-branch}} \
+          --base ${{steps.branch-checkout-details.outputs.current_branch}} \
           --title "version ${{steps.read-release-props.outputs.final-release-version}}" \
           --body "### version: ${{steps.read-release-props.outputs.final-release-version}} ### Date: $(date -u +"%Y-%m-%d %H:%M:%S"))" \
           --no-maintainer-edit
