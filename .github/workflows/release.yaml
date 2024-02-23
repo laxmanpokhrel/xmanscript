@@ -35,9 +35,6 @@ jobs:
           name: get-release-props-logs
           path: get-release-props-logs.log
 
-      - name: Install yarn
-        run: npm install --global yarn
-
       - name: Debug variables
         run: |
           echo "tag=${{steps.read-release-props.outputs.tag}}"
@@ -82,6 +79,9 @@ jobs:
           # Set output
           echo "current_branch=$(echo $current_branch)" >>$GITHUB_OUTPUT
           echo "checkout_branch_name=$(echo $checkout_branch_name)" >>$GITHUB_OUTPUT
+
+      - name: Check branch
+        run: git branch
 
       - name: Install package
         run: yarn install
