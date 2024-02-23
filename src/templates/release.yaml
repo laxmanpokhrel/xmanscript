@@ -29,14 +29,25 @@ jobs:
         id: read-release-props
         run: bash .github/scripts/release.sh 2>&1 | tee -a get-release-props-logs.log
 
+      - name: Configure git
+        run: |
+          USER_NAME='laxmanpokhel_actions'
+          USER_EMAIL='laxmanpokhrel@users.noreply.github.com'
+
+          # Set the git configs
+          git config --global user.name $USER_NAME
+          git config --global user.email $USER_EMAIL
+
+      - name: Commit logs
+        run: |
+          git add .
+          git commit -m "ci: Release props logs generated."
+
       - name: Upload log file
         uses: actions/upload-artifact@v4
         with:
           name: get-release-props-logs
           path: get-release-props-logs.log
-
-      - name: Install yarn
-        run: npm install --global yarn
 
       - name: Debug variables
         run: |
@@ -52,22 +63,14 @@ jobs:
         # continue-on-error: true
         id: branch-checkout-details
         run: |
-          USER_NAME='laxmanpokhel_actions'
-          USER_EMAIL='laxmanpokhrel@users.noreply.github.com'
-
-          # Set the git configs
-          git config --global user.name $USER_NAME
-          git config --global user.email $USER_EMAIL
-
           # Read current branch
           current_branch=$(git rev-parse --abbrev-ref HEAD)
 
           # Create a checkout branch name
           checkout_branch_name=release-${{steps.read-release-props.outputs.final-release-version}}
 
-
-          # Switch to new branch
-          git switch -c ${checkout_branch_name}
+          # Checkout to new branch
+          git checkout -b $checkout_branch_name
 
           # Update the version in package.json, and commit & tag the change:
           npm version ${{steps.read-release-props.outputs.final-release-version}} -m "chore(Github Actions-$(date -u +"%Y-%m-%d %H:%M:%S")): Deploy package to NPM"
@@ -75,6 +78,9 @@ jobs:
           # Set output
           echo "current_branch=$(echo $current_branch)" >>$GITHUB_OUTPUT
           echo "checkout_branch_name=$(echo $checkout_branch_name)" >>$GITHUB_OUTPUT
+
+      - name: Check branch
+        run: git branch
 
       - name: Install package
         run: yarn install
@@ -104,10 +110,6 @@ jobs:
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          git status
-          git add .
-          git commit -m "feat: published version ${{steps.read-release-props.outputs.final-release-version}}"
-
           # Push the updated version new checkout branch
           git push --set-upstream origin ${{steps.branch-checkout-details.outputs.checkout_branch_name}}
 
