@@ -29,6 +29,15 @@ jobs:
         id: read-release-props
         run: bash .github/scripts/release.sh 2>&1 | tee -a get-release-props-logs.log
 
+      - name: Configure git
+        run: |
+          USER_NAME='laxmanpokhel_actions'
+          USER_EMAIL='laxmanpokhrel@users.noreply.github.com'
+
+          # Set the git configs
+          git config --global user.name $USER_NAME
+          git config --global user.email $USER_EMAIL
+
       - name: Commit logs
         run: |
           git add .
@@ -57,13 +66,6 @@ jobs:
         # continue-on-error: true
         id: branch-checkout-details
         run: |
-          USER_NAME='laxmanpokhel_actions'
-          USER_EMAIL='laxmanpokhrel@users.noreply.github.com'
-
-          # Set the git configs
-          git config --global user.name $USER_NAME
-          git config --global user.email $USER_EMAIL
-
           # Read current branch
           current_branch=$(git rev-parse --abbrev-ref HEAD)
 
@@ -72,12 +74,6 @@ jobs:
 
           # Checkout to new branch
           git checkout -b $checkout_branch_name
-
-          # # Stage changes
-          # git add .
-
-          # # Commit the changes
-          # git commit -m "chore: Update package version to ${{steps.read-release-props.outputs.final-release-version}}"
 
           # Update the version in package.json, and commit & tag the change:
           npm version ${{steps.read-release-props.outputs.final-release-version}} -m "chore(Github Actions-$(date -u +"%Y-%m-%d %H:%M:%S")): Deploy package to NPM"
