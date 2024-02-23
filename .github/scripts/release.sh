@@ -99,7 +99,7 @@ if [ "$(echo "$RELEASE_CONFIG_FILE" | jq -r ".tag")" != "null" ]; then
     echo "- custom tag detected $TAG"
 else
     echo "- no custom tag found"
-    TAG="v-$FINAL_RELEASE_VERSION"
+    TAG="v$FINAL_RELEASE_VERSION"
 fi
 
 # Check if release notes are available
