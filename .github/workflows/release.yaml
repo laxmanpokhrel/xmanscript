@@ -72,8 +72,8 @@ jobs:
           npm version ${{steps.read-release-props.outputs.final-release-version}} -m "chore(Github Actions-$(date -u +"%Y-%m-%d %H:%M:%S")): Deploy package to NPM"
 
           # Set output
-          echo "current-branch=$(echo $current-branch)" >>$GITHUB_OUTPUT
-          echo "checkout-branch-name=$(echo $checkout-branch-name)" >>$GITHUB_OUTPUT
+          echo "current_branch=$(echo $current_branch)" >>$GITHUB_OUTPUT
+          echo "checkout_branch_name=$(echo $checkout_branch_name)" >>$GITHUB_OUTPUT
 
       - name: Install package
         run: yarn install
