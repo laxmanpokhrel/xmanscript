@@ -1,3 +1,6 @@
+# Change directory to the root of the project
+cd "$(git rev-parse --show-toplevel)"
+
 # Declerations
 RELEASE_CONFIG_FILE=null
 RELEASE_TYPE=null
