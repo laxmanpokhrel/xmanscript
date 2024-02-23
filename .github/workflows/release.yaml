@@ -46,9 +46,10 @@ jobs:
           echo "final-release-version: ${{steps.read-release-props.outputs.final-release-version}}"
           echo "final-release-version: ${{steps.read-release-props.outputs.final-release-version}}"
 
-      - name: Bump version & push
+      - name: Checkout to new branch and update package json with new version
         # if: steps.read-release-props.outcome.package-version != steps.read-release-props.outputs.final-release-version
         continue-on-error: true
+        id: branch-checkout-details
         run: |
           USER_NAME='laxmanpokhel_actions'
           USER_EMAIL='laxmanpokhrel@users.noreply.github.com'
@@ -57,9 +58,21 @@ jobs:
           git config --global user.name $USER_NAME
           git config --global user.email $USER_EMAIL
 
+          # Read current branch
+          current-branch=echo ${git branch}
+
+          checkout-branch-name=release-${{steps.read-release-props.outputs.final-release-version}}
+
+
+          # Switch to new branch
+          git checkout -b ${checkout-branch-name}
+
           # Update the version in package.json, and commit & tag the change:
           npm version ${{steps.read-release-props.outputs.final-release-version}} -m "chore(Github Actions-$(date -u +"%Y-%m-%d %H:%M:%S")): Deploy package to NPM"
-          git push && git push --tags
+
+          # Set output
+          echo "current-branch=$(echo $current-branch)" >>$GITHUB_OUTPUT
+          echo "checkout-branch-name=$(echo $checkout-branch-name)" >>$GITHUB_OUTPUT
 
       - name: Install package
         run: yarn install
@@ -84,3 +97,15 @@ jobs:
             --repo="$GITHUB_REPOSITORY" \
             --title="$title" \
             --notes="${{ steps.read-release-props.outputs.release-notes }}"
+
+      - name: Push and raise a PR
+        run: |
+          # Push the updated version new checkout branch
+          git push origin ${{steps.branch-checkout-details.outputs.checkout-branch-name}}
+
+          # Create PR for the release
+          gh pr create \
+          --base ${{steps.branch-checkout-details.outputs.current-branch}} \
+          --title "version ${{steps.read-release-props.outputs.final-release-version}}" \
+          --body "### version: ${{steps.read-release-props.outputs.final-release-version}} ### Date: $(date -u +"%Y-%m-%d %H:%M:%S"))" \
+          --no-maintainer-edit
