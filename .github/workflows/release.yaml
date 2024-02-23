@@ -100,6 +100,8 @@ jobs:
             --notes="${{ steps.read-release-props.outputs.release-notes }}"
 
       - name: Push and raise a PR
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           # Push the updated version new checkout branch
           git push --set-upstream origin ${{steps.branch-checkout-details.outputs.checkout_branch_name}}
