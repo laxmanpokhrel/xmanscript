@@ -118,5 +118,7 @@ jobs:
           gh pr create \
           --base ${{steps.branch-checkout-details.outputs.current_branch}} \
           --title "version ${{steps.read-release-props.outputs.final-release-version}}" \
-          --body "### version: ${{steps.read-release-props.outputs.final-release-version}} \n ### Date: $(date -u +"%Y-%m-%d %H:%M:%S"))" \
+          --body |
+              ### version: ${{steps.read-release-props.outputs.final-release-version}}
+              ##### Date: $(date -u +"%Y-%m-%d %H:%M:%S")" 
           --no-maintainer-edit
