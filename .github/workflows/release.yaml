@@ -77,7 +77,7 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          tag="v-${{ steps.read-release-props.outputs.tag }}"
+          tag="${{ steps.read-release-props.outputs.tag }}"
           # Remove the leading 'v' from the tag
           title="${tag}"
           gh release create "$tag" \
