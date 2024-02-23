@@ -33,7 +33,7 @@ export default async function createRelease() {
       type: "list",
       name: "value",
       message: "Choose your release type: ",
-      choices: ["Major", "Minor", "Patch"],
+      choices: ["major", "minor", "patch"],
     },
   ]);
 
