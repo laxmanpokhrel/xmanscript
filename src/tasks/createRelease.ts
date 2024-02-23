@@ -37,6 +37,8 @@ export default async function createRelease() {
     },
   ]);
 
+  console.log("heheh");
+
   // Check if .release directory exists and delete it if it does
   try {
     await accessAsync(".release", fs.constants.F_OK);
