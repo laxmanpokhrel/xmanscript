@@ -104,6 +104,9 @@ jobs:
           # Push the updated version new checkout branch
           git push --set-upstream origin ${{steps.branch-checkout-details.outputs.checkout_branch_name}}
 
+          # Set the upstream branch for the current branch
+          git branch --set-upstream-to=origin/${{ steps.branch-checkout-details.outputs.checkout_branch_name }} ${GITHUB_REF#refs/heads/}
+
           # Create PR for the release
           gh pr create \
           --base ${{steps.branch-checkout-details.outputs.current_branch}} \
