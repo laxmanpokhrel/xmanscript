@@ -7,6 +7,7 @@ permissions:
   contents: write
 jobs:
   release:
+    permissions: write-all
     runs-on: ubuntu-latest
 
     steps:
@@ -21,8 +22,8 @@ jobs:
       - name: Setup node version
         uses: actions/setup-node@v4
         with:
-          node-version: '*'
-          registry-url: 'https://registry.npmjs.org'
+          node-version: "*"
+          registry-url: "https://registry.npmjs.org"
 
       - name: Read release props
         id: read-release-props
@@ -34,23 +35,22 @@ jobs:
           name: get-release-props-logs
           path: get-release-props-logs.log
 
-      - name: Display outputs
-        run: |
-          echo "tag=${{steps.read-release-props.outputs.tag}}"
-          echo "release-notes=${{steps.read-release-props.outputs.release-notes}}"
-          echo "final-release-version=${{steps.read-release-props.outputs.final-release-version}}"
-
       - name: Install yarn
         run: npm install --global yarn
 
       - name: Debug variables
         run: |
+          echo "tag=${{steps.read-release-props.outputs.tag}}"
+          echo "release-notes=${{steps.read-release-props.outputs.release-notes}}"
           echo "package-version: ${{steps.read-release-props.outputs.package-version}}"
+          echo "release-type: ${{steps.read-release-props.outputs.release-type}}"
+          echo "final-release-version: ${{steps.read-release-props.outputs.final-release-version}}"
           echo "final-release-version: ${{steps.read-release-props.outputs.final-release-version}}"
 
-      - name: Bump version & push
+      - name: Checkout to new branch and update package json with new version
         # if: steps.read-release-props.outcome.package-version != steps.read-release-props.outputs.final-release-version
-        continue-on-error: true
+        # continue-on-error: true
+        id: branch-checkout-details
         run: |
           USER_NAME='laxmanpokhel_actions'
           USER_EMAIL='laxmanpokhrel@users.noreply.github.com'
@@ -59,9 +59,22 @@ jobs:
           git config --global user.name $USER_NAME
           git config --global user.email $USER_EMAIL
 
+          # Read current branch
+          current_branch=$(git rev-parse --abbrev-ref HEAD)
+
+          # Create a checkout branch name
+          checkout_branch_name=release-${{steps.read-release-props.outputs.final-release-version}}
+
+
+          # Switch to new branch
+          git checkout -b ${checkout_branch_name}
+
           # Update the version in package.json, and commit & tag the change:
           npm version ${{steps.read-release-props.outputs.final-release-version}} -m "chore(Github Actions-$(date -u +"%Y-%m-%d %H:%M:%S")): Deploy package to NPM"
-          git push && git push --tags
+
+          # Set output
+          echo "current_branch=$(echo $current_branch)" >>$GITHUB_OUTPUT
+          echo "checkout_branch_name=$(echo $checkout_branch_name)" >>$GITHUB_OUTPUT
 
       - name: Install package
         run: yarn install
@@ -71,18 +84,39 @@ jobs:
 
       - name: Publish package
         env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_PUBLISH_TOKEN }}
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
         run: |
-          npm publish --tag ${{steps.read-release-props.outputs.tag}}
+          npm pkg fix
+          npm publish
 
       - name: Create release
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          tag="v-${{ steps.read-release-props.outputs.tag }}"
-          # Remove the leading 'v' from the tag
+          tag="${{ steps.read-release-props.outputs.tag }}"
           title="${tag}"
           gh release create "$tag" \
             --repo="$GITHUB_REPOSITORY" \
             --title="$title" \
             --notes="${{ steps.read-release-props.outputs.release-notes }}"
+
+      - name: Push and raise a PR
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          git status
+          git add .
+          git commit -m "feat: published version ${{steps.read-release-props.outputs.final-release-version}}"
+
+          # Push the updated version new checkout branch
+          git push --set-upstream origin ${{steps.branch-checkout-details.outputs.checkout_branch_name}}
+
+          # Set the upstream branch for the current branch
+          git branch --set-upstream-to=origin/${{ steps.branch-checkout-details.outputs.checkout_branch_name }} ${GITHUB_REF#refs/heads/}
+
+          # Create PR for the release
+          gh pr create \
+          --base ${{steps.branch-checkout-details.outputs.current_branch}} \
+          --title "version ${{steps.read-release-props.outputs.final-release-version}}" \
+          --body "* version: ${{steps.read-release-props.outputs.final-release-version}} | $(date -u +"%Y-%m-%d %H:%M:%S")" \
+          --no-maintainer-edit
