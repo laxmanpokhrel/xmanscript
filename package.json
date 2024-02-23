@@ -1,10 +1,6 @@
 {
   "name": "xmanscript-test",
-<<<<<<< HEAD
-  "version": "1.0.18",
-=======
   "version": "1.0.17",
->>>>>>> 2714a49640441a995ba00c7c4c9c40aa8866be46
   "description": "cli for xmanscript tools",
   "type": "module",
   "module": "es2020",
