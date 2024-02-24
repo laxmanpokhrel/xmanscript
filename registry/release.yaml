@@ -41,6 +41,7 @@ jobs:
           git config --global user.email $USER_EMAIL
 
       - name: Commit logs
+        continue-on-error: true
         run: |
           git add .
           git commit -m "ci: Release props logs generated."
@@ -51,18 +52,7 @@ jobs:
           name: get-release-props-logs
           path: get-release-props-logs.log
 
-      - name: Debug variables
-        run: |
-          echo "tag=${{steps.read-release-props.outputs.tag}}"
-          echo "release-notes=${{steps.read-release-props.outputs.release-notes}}"
-          echo "package-version: ${{steps.read-release-props.outputs.package-version}}"
-          echo "release-type: ${{steps.read-release-props.outputs.release-type}}"
-          echo "final-release-version: ${{steps.read-release-props.outputs.final-release-version}}"
-          echo "final-release-version: ${{steps.read-release-props.outputs.final-release-version}}"
-
       - name: Checkout to new branch and update package json with new version
-        # if: steps.read-release-props.outcome.package-version != steps.read-release-props.outputs.final-release-version
-        # continue-on-error: true
         id: branch-checkout-details
         run: |
           # Read current branch
@@ -80,9 +70,6 @@ jobs:
           # Set output
           echo "current_branch=$(echo $current_branch)" >>$GITHUB_OUTPUT
           echo "checkout_branch_name=$(echo $checkout_branch_name)" >>$GITHUB_OUTPUT
-
-      - name: Check branch
-        run: git branch
 
       - name: Install package
         run: yarn install

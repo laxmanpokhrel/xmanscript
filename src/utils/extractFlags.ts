@@ -13,7 +13,7 @@ export default function extractFlags() {
         flags[flag] = process.argv[i + 1];
         i++; // Skip the flag argument value
       } else {
-        flags[flag] = true; // Flag without a value
+        flags[flag] = true;
       }
     }
   }
