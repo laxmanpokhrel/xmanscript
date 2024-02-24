@@ -10,11 +10,11 @@ const mkdirAsync = util.promisify(fs.mkdir);
 const readFileAsync = util.promisify(fs.readFile);
 
 export default async function createReleaseWorkflow() {
-  const spinner = ora("Creating release workflow. \n").start();
-
+  // const spinner = ora("Creating release workflow. \n").start();
+  logger.info(__dirname);
   if (!fileExists("package.json")) {
     logger.error("Failed to detect a project");
-    spinner.fail();
+    // spinner.fail();
     process.exit(-1);
   }
 
@@ -82,7 +82,7 @@ export default async function createReleaseWorkflow() {
       "utf-8"
     );
   } catch (error) {
-    spinner.fail();
+    // spinner.fail();
     logger.error("Error reading registry script file:", error);
     process.exit(-1);
 
@@ -94,8 +94,8 @@ export default async function createReleaseWorkflow() {
     await writeFileAsync(scriptFilePath, scriptContent);
     logger.info("Release script created.");
   } catch (error) {
-    spinner.fail();
+    // spinner.fail();
     logger.error("Error creating release script:", error);
   }
-  spinner.succeed();
+  // spinner.succeed();
 }
