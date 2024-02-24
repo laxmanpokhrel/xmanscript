@@ -31,16 +31,4 @@ function fetchFileContent(
   });
 }
 
-// Usage example
-const owner = "laxmanpokhrel";
-const repo = "xmanscript";
-const branch = "main";
-const filePath = "registry/release.sh";
-
-fetchFileContent(owner, repo, branch, filePath)
-  .then((data) => {
-    console.log(data); // Do something with the fetched data
-  })
-  .catch((error) => {
-    console.error(error);
-  });
+export default fetchFileContent;
