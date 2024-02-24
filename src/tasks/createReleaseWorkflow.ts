@@ -15,7 +15,7 @@ export default async function createReleaseWorkflow() {
   if (!fileExists("package.json")) {
     logger.error("Failed to detect a project");
     spinner.fail();
-    return;
+    process.exit(-1);
   }
 
   // Ensure the .github/workflows directory exists
@@ -84,7 +84,9 @@ export default async function createReleaseWorkflow() {
   } catch (error) {
     spinner.fail();
     logger.error("Error reading registry script file:", error);
-    return;
+    process.exit(-1);
+
+    // return;
   }
 
   // Write the registry script content to .github/scripts/release.sh

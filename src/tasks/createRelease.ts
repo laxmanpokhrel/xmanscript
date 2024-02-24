@@ -32,7 +32,7 @@ export default async function createRelease() {
     {
       type: "list",
       name: "value",
-      message: "Choose your release type: ",
+      message: "Choose your version upgrade type:",
       choices: ["major", "minor", "patch"],
     },
   ]);
