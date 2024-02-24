@@ -20,6 +20,12 @@ async function main() {
     } else if (flags.help) {
       showAvailableFlags();
       process.exit(0);
+    } else if (flags["create-release-data"]) {
+      createRelease();
+      process.exit(0);
+    } else if (flags["create-release-action"]) {
+      createReleaseWorkflow();
+      process.exit(0);
     } else {
       console.error("Flag not available.");
       showAvailableFlags();
