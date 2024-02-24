@@ -1,0 +1,29 @@
+==========================================================
+=                                                        =
+==========================================================
+- reading config.json file
+- '.release/config.json' file found
+- reading 'versionUpgradeType'
+- 'versionUpgradeType': major
+- reading package version from npm
+- package npm version: 1.4.2
+- analysing version
+- analysed deployable version 2.0.0
+- reading custom tag
+- no custom tag found
+- reading release notes
+---
+- RELEASE_NOTES: ## Features
+- Implemented the ability to automate the creation of releases and deployment of npm packages using a GitHub workflow (flag: `--create-release-action`).
+- Added functionality to generate release notes and release configuration files for the action (flag: `--create-release-data`).
+- Introduced an independent registry for managing assets.
+
+## Improvements
+- Enhanced the package to detect existing projects and decide whether to proceed with execution or terminate.
+- Resolved node version dependency issues for versions 18.18.0 and higher.
+- Automation of release and deploy of the package 
+- PACKAGE_NAME: xmanscript
+- PACKAGE_VERSION: 1.0.20
+- FINAL_RELEASE_VERSION: 2.0.0
+- RELEASE_TYPE:major
+- TAG:v-2.0.0
