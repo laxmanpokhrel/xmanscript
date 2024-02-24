@@ -3,7 +3,7 @@ on:
   workflow_dispatch:
   push:
     branches:
-      - <release_branch_name>
+      - main
     paths:
       - .release/*
 permissions:
