@@ -1,7 +1,7 @@
 {
   "name": "xmanscript",
-  "version": "1.4.2",
-  "description": "cli for xmanscript tools",
+  "version": "1.0.20",
+  "description": "CLI for xmanscript tools",
   "type": "module",
   "module": "es2020",
   "scripts": {
@@ -13,15 +13,12 @@
     "start": "node dist/index.js"
   },
   "exports": "./dist/index.js",
-  "bin": "./dist/index.js",
+  "bin": {
+    "xmanscript-test": "dist/index.js"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/laxmanpokhrel/xmanscript-cli.git"
-  },
-  "release": {
-    "branches": [
-      "main"
-    ]
   },
   "keywords": [
     "cli",
@@ -42,7 +39,6 @@
     "fs-extra": "^11.2.0",
     "inquirer": "^9.2.12",
     "ora": "^7.0.1",
-    "semantic-release": "^22.0.0",
     "util": "^0.12.5"
   },
   "publishConfig": {

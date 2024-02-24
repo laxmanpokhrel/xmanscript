@@ -14,7 +14,7 @@ export default async function configurePackageJson(repoName: string) {
     async (error, data) => {
       if (error) {
         spinner.fail(`${chalk.red("Error reading package.json")}: ${error}`);
-        process.exit(-1);
+        process.exit(1);
       }
       const packageJson = JSON.parse(data);
 
@@ -33,7 +33,7 @@ export default async function configurePackageJson(repoName: string) {
           if (err) {
             console.error(chalk.red("Error writing file: "), err);
             spinner.fail();
-            process.exit(-1);
+            process.exit(1);
           }
           spinner.succeed();
         }

@@ -31,7 +31,7 @@ export default async function frontend() {
 
   if (!repoName) {
     console.log(chalk.red("Project name not provided."));
-    process.exit(-1);
+    process.exit(1);
   }
 
   // Create checkout command
@@ -42,7 +42,7 @@ export default async function frontend() {
   // Clone the repo
   if (gitCheckOutCommand) {
     const checkOut = await runCommand(gitCheckOutCommand, "Copying files");
-    if (!checkOut) process.exit(-1);
+    if (!checkOut) process.exit(1);
   }
 
   // Configure the package.json name
@@ -53,36 +53,29 @@ export default async function frontend() {
     `cd ${repoName} && npm i`,
     "Installing dependencies"
   );
-  if (!installedDeps) process.exit(-1);
+  if (!installedDeps) process.exit(1);
 
   // Initialize new .git folder
   const initializeGit = await runCommand(
     `cd ${repoName} && rm -rf .git && git init && git branch -M main && git add . && git commit -m "Initial Commit"`,
     "Initializing project"
   );
-  if (!initializeGit) process.exit(-1);
+  if (!initializeGit) process.exit(1);
 
-  // Success message
-  console.log(
-    chalk.cyan.bold(
-      "\n-----------------------------------------------------------------------"
-    )
-  );
-  console.log(
-    chalk.white.bold(
-      "Successfully Initialised: " + chalk.yellowBright(repoName) + "  🚀"
-    )
-  );
-  console.log(
-    chalk.white.bold(
-      "Run: " +
-        chalk.yellow(`' cd ${repoName} && npm run dev '`) +
-        " to start development server."
-    )
-  );
-  console.log(
-    chalk.cyan.bold(
-      "-----------------------------------------------------------------------\n"
-    )
-  );
+  console.log(`
+  ${chalk.cyan.bold(
+    "\n-----------------------------------------------------------------------"
+  )}
+  ${chalk.white.bold(
+    "Successfully Initialised: " + chalk.yellowBright(repoName) + "  🚀"
+  )}
+  ${chalk.white.bold(
+    "Run: " +
+      chalk.yellow(`' cd ${repoName} && npm run dev '`) +
+      " to start development server."
+  )}
+  ${chalk.cyan.bold(
+    "-----------------------------------------------------------------------\n"
+  )}
+  `);
 }
