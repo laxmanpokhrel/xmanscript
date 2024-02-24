@@ -3,6 +3,8 @@ on:
   push:
     branches:
       - main
+    paths:
+      - .release
 permissions:
   contents: write
 jobs:
