@@ -6,6 +6,7 @@ import fileExists from "@/src/utils/fileExists";
 import { logger } from "@/src/utils/logger";
 import __dirname from "@/src/utils/dirName";
 import copyFileFromNpxRegistry from "@/src/utils/copyFileFromRegistry";
+import fetchFileContent from "@/src/utils/fetchFileContent";
 
 export {
   extractFlags,
@@ -16,4 +17,5 @@ export {
   logger,
   __dirname,
   copyFileFromNpxRegistry,
+  fetchFileContent,
 };
