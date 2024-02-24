@@ -4,7 +4,7 @@ on:
     branches:
       - main
     paths:
-      - .release
+      - .release/*
 permissions:
   contents: write
 jobs:
