@@ -6,3 +6,4 @@
 ## Improvements
 - Enhanced the package to detect existing projects and decide whether to proceed with execution or terminate.
 - Resolved node version dependency issues for versions 18.18.0 and higher.
+- Automation of release and deploy of the package 
