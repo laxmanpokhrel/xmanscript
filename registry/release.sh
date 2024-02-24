@@ -27,14 +27,14 @@ else
     exit 1
 fi
 
-# Check if release config file has `releaseType`
-echo "- reading 'releaseType'"
-if [ "$(echo "$RELEASE_CONFIG_FILE" | jq -r ".releaseType")" != "null" ]; then
-    RELEASE_TYPE=$(echo "$RELEASE_CONFIG_FILE" | jq -r ".releaseType")
-    echo "- 'releaseType': $RELEASE_TYPE"
+# Check if release config file has `versionUpgradeType`
+echo "- reading 'versionUpgradeType'"
+if [ "$(echo "$RELEASE_CONFIG_FILE" | jq -r ".versionUpgradeType")" != "null" ]; then
+    RELEASE_TYPE=$(echo "$RELEASE_CONFIG_FILE" | jq -r ".versionUpgradeType")
+    echo "- 'versionUpgradeType': $RELEASE_TYPE"
 else
     RELEASE_TYPE=null
-    echo "- no 'releaseType' provided"
+    echo "- no 'versionUpgradeType' provided"
     echo "- abort"
     exit 1
 fi

@@ -28,7 +28,7 @@ export default async function createRelease() {
   ]);
 
   // Read release type
-  const releaseType = await inquirer.prompt([
+  const versionUpgradeType = await inquirer.prompt([
     {
       type: "list",
       name: "value",
@@ -36,8 +36,6 @@ export default async function createRelease() {
       choices: ["major", "minor", "patch"],
     },
   ]);
-
-  console.log("heheh");
 
   // Check if .release directory exists and delete it if it does
   try {
@@ -76,15 +74,15 @@ export default async function createRelease() {
     logger.info("Tag added to config.");
   }
 
-  // 3. If there is a releaseType, add the releaseType to .release/config.json
-  if (releaseType.value) {
+  // 3. If there is a versionUpgradeType, add the versionUpgradeType to .release/config.json
+  if (versionUpgradeType.value) {
     try {
       await accessAsync(".release/config.json", fs.constants.F_OK);
     } catch (error) {
       if (error.code === "ENOENT") {
         // File doesn't exist, create it with default content
 
-        const defaultConfig = { releaseType: "" };
+        const defaultConfig = { versionUpgradeType: "" };
         await writeFileAsync(
           ".release/config.json",
           JSON.stringify(defaultConfig, null, 2)
@@ -99,12 +97,15 @@ export default async function createRelease() {
     );
 
     const configFile = JSON.parse(configFileContent);
-    const config = { ...configFile, releaseType: releaseType.value };
+    const config = {
+      ...configFile,
+      versionUpgradeType: versionUpgradeType.value,
+    };
     await writeFileAsync(
       ".release/config.json",
       JSON.stringify(config, null, 2)
     );
-    logger.info("Release type added to config.");
+    logger.info("VersionUpgradeType added to config.");
   }
 
   // Success message

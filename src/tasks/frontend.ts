@@ -1,10 +1,20 @@
 import { frontendOptions } from "@/src/constants";
-import { configurePackageJson, getRepoName } from "@/src/utils";
+import {
+  configurePackageJson,
+  getRepoName,
+  fileExists,
+  logger,
+} from "@/src/utils";
 import runCommand from "@/src/utils/runCommand";
 import chalk from "chalk";
 import inquirer from "inquirer";
 
 export default async function frontend() {
+  if (fileExists("package.json")) {
+    logger.error("Project already exists, please choose an empty directory");
+    return;
+  }
+
   const branchName = "main";
 
   // Ask for frontend option
