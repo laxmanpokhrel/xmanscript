@@ -1,9 +1,8 @@
 name: Release Test
 on:
-  workflow_dispatch:
   push:
     branches:
-      - <release_branch_name>
+      - <your_release_branch_name>
     paths:
       - .release/*
 permissions:

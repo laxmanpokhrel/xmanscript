@@ -1,11 +1,10 @@
 import { fileURLToPath } from "url";
 import * as path from "path";
 
-export const scriptChoices = [
-  "Frontend",
-  "Backend",
-  "Create release",
-  "Create release workflow",
+export const starterChoice = [
+  "Bolierplates",
+  "Setup github action to deploy npm package",
+  "Create package release data",
 ];
 
 export const frontendOptions: Record<string, string>[] = [
@@ -26,6 +25,8 @@ export const frontendOptions: Record<string, string>[] = [
     repo: "https://github.com/laxmanpokhrel/xmanscript-npm-package-boilerplate",
   },
 ];
+
+export const boilerplatesChoices = ["Frontend", "Backend"];
 
 export const availableFlags = [
   { name: "--frontend", description: "Create frontend app" },

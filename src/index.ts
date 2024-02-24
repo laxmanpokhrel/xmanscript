@@ -2,12 +2,13 @@
 
 import inquirer from "inquirer";
 import { extractFlags } from "@/src/utils";
-import { scriptChoices } from "@/src/constants";
-import frontend from "@/src/tasks/frontend";
-import backend from "@/src/tasks/backend";
+import { starterChoice } from "@/src/constants";
+import frontend from "@/src/tasks/boilerplates/frontend";
+import backend from "@/src/tasks/boilerplates/backend";
+import boilerplates from "@/src/tasks/boilerplates";
 import createRelease from "@/src/tasks/createRelease";
+import createReleaseWorkflow from "@/src/tasks/createReleaseWorkflow";
 import showAvailableFlags from "@/src/utils/showAvailableFlags";
-import createReleaseWorkflow from "./tasks/createReleaseWorkflow";
 
 async function main() {
   const flags = extractFlags();
@@ -22,7 +23,7 @@ async function main() {
     } else {
       console.error("Flag not available.");
       showAvailableFlags();
-      process.exit(-1);
+      process.exit(1);
     }
   } else {
     // Ask for script choice
@@ -30,26 +31,22 @@ async function main() {
       {
         type: "list",
         name: "type",
-        message: "Which end app are you building?",
-        choices: scriptChoices,
+        message: "What are you looking for?",
+        choices: starterChoice,
       },
     ]);
 
-    // Frontend
-    if (endChoice.type === scriptChoices[0]) {
-      await frontend();
+    // Bolierplates
+    if (endChoice.type === starterChoice[0]) {
+      await boilerplates();
     }
-    // Backend
-    if (endChoice.type === scriptChoices[1]) {
-      await backend();
-    }
-    // Create release
-    if (endChoice.type === scriptChoices[2]) {
-      await createRelease();
-    }
-    // Create release workflow
-    if (endChoice.type === scriptChoices[3]) {
+    // Setup github action to deploy npm package
+    if (endChoice.type === starterChoice[1]) {
       await createReleaseWorkflow();
+    }
+    // Create package release data
+    if (endChoice.type === starterChoice[2]) {
+      await createRelease();
     }
   }
 }

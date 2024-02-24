@@ -2,11 +2,11 @@ import * as fs from "fs";
 import * as util from "util";
 import { fetchFileContent, fileExists, logger } from "@/src/utils";
 import ora from "ora";
+import chalk from "chalk";
 
 const writeFileAsync = util.promisify(fs.writeFile);
 const accessAsync = util.promisify(fs.access);
 const mkdirAsync = util.promisify(fs.mkdir);
-const readFileAsync = util.promisify(fs.readFile);
 const owner = "laxmanpokhrel";
 const repo = "xmanscript";
 const branch = "main";
@@ -16,8 +16,8 @@ export default async function createReleaseWorkflow() {
 
   if (!fileExists("package.json")) {
     logger.error("Failed to detect a project");
+    process.exit(0);
     // spinner.fail();
-    return;
   }
 
   // Ensure the .github/workflows directory exists
@@ -102,4 +102,43 @@ export default async function createReleaseWorkflow() {
     logger.error("Error creating release script:", error);
   }
   // spinner.succeed();
+
+  console.log(`
+${chalk.cyan.bold(
+  "\n----------------------------------------------------------------------------------------------------------------------------------------------"
+)}
+${chalk.yellow(
+  "Please replace " +
+    chalk.green("<your_release_branch_name>") +
+    " with your release branch name in `.github/workflows/release.yaml`."
+)}
+${chalk.yellow(
+  "To ensure that this GitHub Action works correctly, the following steps are necessary:"
+)}
+${chalk.white(
+  "1. Set " +
+    chalk.cyan("NPM_TOKEN") +
+    " as a GitHub repository secret " +
+    chalk.cyan("NPM_TOKEN") +
+    " is provided by npm for automation purposes."
+)}
+${chalk.white(
+  "2. Configure your GitHub Actions settings to create and approve pull requests. This setting can be found under your repository's " +
+    chalk.cyan("settings > Actions > General") +
+    "."
+)}
+${chalk.white(
+  "3. The action will be triggered when changes are pushed to " +
+    chalk.green("<your_release_branch_name>") +
+    " and include changes in the `.release` folder."
+)}
+${chalk.white(
+  "   If the `.release` folder doesn't exist, you can create it manually. Alternatively, for the first-time setup, you can run " +
+    chalk.cyan("`npx xmanscript --create-release`") +
+    " and follow the prompts."
+)}
+${chalk.cyan.bold(
+  "----------------------------------------------------------------------------------------------------------------------------------------------\n"
+)}
+`);
 }

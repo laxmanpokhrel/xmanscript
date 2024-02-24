@@ -13,6 +13,6 @@ export default async function getGitAuthor() {
     return author.stdout.slice(0, author.stdout.length - 1);
   } catch (e) {
     spinner.fail("Failed to read git config. Please set the git config.");
-    process.exit(-1);
+    process.exit(1);
   }
 }

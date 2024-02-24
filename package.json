@@ -20,11 +20,6 @@
     "type": "git",
     "url": "git+https://github.com/laxmanpokhrel/xmanscript-cli.git"
   },
-  "release": {
-    "branches": [
-      "main"
-    ]
-  },
   "keywords": [
     "cli",
     "tools",
@@ -44,7 +39,6 @@
     "fs-extra": "^11.2.0",
     "inquirer": "^9.2.12",
     "ora": "^7.0.1",
-    "semantic-release": "^22.0.0",
     "util": "^0.12.5"
   },
   "publishConfig": {
