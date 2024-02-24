@@ -1,7 +1,7 @@
 {
-  "name": "xmanscript-test",
+  "name": "xmanscript",
   "version": "1.0.20",
-  "description": "cli for xmanscript tools",
+  "description": "CLI for xmanscript tools",
   "type": "module",
   "module": "es2020",
   "scripts": {
