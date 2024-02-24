@@ -27,3 +27,25 @@
 - FINAL_RELEASE_VERSION: 2.0.0
 - RELEASE_TYPE:major
 - TAG:v-2.0.0
+==========================================================
+=                                                        =
+==========================================================
+- reading config.json file
+- '.release/config.json' file found
+- reading 'versionUpgradeType'
+- 'versionUpgradeType': minor
+- reading package version from npm
+- package npm version: 2.0.0
+- analysing version
+- analysed deployable version 2.1.0
+- reading custom tag
+- no custom tag found
+- reading release notes
+---
+- RELEASE_NOTES: ## Changes
+- Changes the executable command in bin of package.json
+- PACKAGE_NAME: xmanscript
+- PACKAGE_VERSION: 2.0.0
+- FINAL_RELEASE_VERSION: 2.1.0
+- RELEASE_TYPE:minor
+- TAG:v-2.1.0
