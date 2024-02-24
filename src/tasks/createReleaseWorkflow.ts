@@ -1,6 +1,11 @@
 import * as fs from "fs";
 import * as util from "util";
-import { fileExists, logger, __dirname } from "@/src/utils";
+import {
+  fileExists,
+  logger,
+  __dirname,
+  copyFileFromNpxRegistry,
+} from "@/src/utils";
 import ora from "ora";
 import * as path from "path";
 
@@ -32,22 +37,29 @@ export default async function createReleaseWorkflow() {
     }
   }
 
-  // Read the content of the registry YAML file
-  let workflowContent;
-  try {
-    workflowContent = await readFileAsync(
-      path.join(__dirname, "/registry/release.yaml"),
-      "utf-8"
-    );
-    // workflowContent = await readFileAsync(path.join(__dirname, "/registry/release.yaml")"registry/release.yaml", "utf-8");
-  } catch (error) {
-    logger.error("Error reading registry YAML file:", error);
-    return;
-  }
+  // // Read the content of the registry YAML file
+  // let workflowContent;
+  // try {
+  //   workflowContent = await readFileAsync(
+  //     path.join(__dirname, "/registry/release.yaml"),
+  //     "utf-8"
+  //   );
+  //   // workflowContent = await readFileAsync(path.join(__dirname, "/registry/release.yaml")"registry/release.yaml", "utf-8");
+  // } catch (error) {
+  //   logger.error("Error reading registry YAML file:", error);
+  //   return;
+  // }
 
-  // Write the registry YAML content to .github/workflows/release.yaml
+  // // Write the registry YAML content to .github/workflows/release.yaml
+  // try {
+  //   await writeFileAsync(".github/workflows/release.yaml", workflowContent);
+  //   logger.info("Release workflow created.");
+  // } catch (error) {
+  //   logger.error("Error creating release workflow:", error);
+  // }
+
   try {
-    await writeFileAsync(".github/workflows/release.yaml", workflowContent);
+    copyFileFromNpxRegistry("release.yaml", ".github/workflows/release.yaml");
     logger.info("Release workflow created.");
   } catch (error) {
     logger.error("Error creating release workflow:", error);
@@ -75,27 +87,37 @@ export default async function createReleaseWorkflow() {
   }
 
   // Read the content of the registry script file
-  let scriptContent;
+  // let scriptContent;
+  // try {
+  //   scriptContent = await readFileAsync(
+  //     path.join(__dirname, "/registry/release.sh"),
+  //     "utf-8"
+  //   );
+  // } catch (error) {
+  //   // spinner.fail();
+  //   logger.error("Error reading registry script file:", error);
+  //   process.exit(-1);
+
+  //   // return;
+  // }
+
+  // // Write the registry script content to .github/scripts/release.sh
+  // try {
+  //   await writeFileAsync(scriptFilePath, scriptContent);
+  //   logger.info("Release script created.");
+  // } catch (error) {
+  //   // spinner.fail();
+  //   logger.error("Error creating release script:", error);
+  // }
+
   try {
-    scriptContent = await readFileAsync(
-      path.join(__dirname, "/registry/release.sh"),
-      "utf-8"
-    );
+    copyFileFromNpxRegistry("release.sh", scriptFilePath);
   } catch (error) {
     // spinner.fail();
     logger.error("Error reading registry script file:", error);
     process.exit(-1);
 
     // return;
-  }
-
-  // Write the registry script content to .github/scripts/release.sh
-  try {
-    await writeFileAsync(scriptFilePath, scriptContent);
-    logger.info("Release script created.");
-  } catch (error) {
-    // spinner.fail();
-    logger.error("Error creating release script:", error);
   }
   // spinner.succeed();
 }
