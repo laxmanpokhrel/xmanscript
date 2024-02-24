@@ -134,7 +134,7 @@ ${chalk.white(
 )}
 ${chalk.white(
   "   If the `.release` folder doesn't exist, you can create it manually. Alternatively, for the first-time setup, you can run " +
-    chalk.cyan("`npx xmanscript --create-release`") +
+    chalk.cyan("`npx xmanscript --create-release-data`") +
     " and follow the prompts."
 )}
 ${chalk.cyan.bold(

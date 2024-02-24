@@ -32,12 +32,12 @@ export const availableFlags = [
   { name: "--frontend", description: "Create frontend app" },
   { name: "--backend", description: "Create backend app" },
   {
-    name: "--create-release",
+    name: "--create-release-data",
     description:
       "Create release and tag to deploy your package to npm or to trigger the release workflow create by the cli",
   },
   {
-    name: "--create-release-workflow",
+    name: "--create-release-action",
     description: "Create release workflow to deploy package to npm",
   },
   { name: "--help", description: "List all flags" },

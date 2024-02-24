@@ -13,11 +13,6 @@ const rmdirAsync = util.promisify(fs.rm);
 export default async function createRelease() {
   logger.info("In progress.");
 
-  // Read tag
-  const tag = await inquirer.prompt([
-    { type: "input", name: "value", message: "Enter the tag for the release:" },
-  ]);
-
   // Read release note
   const releaseNotes = await inquirer.prompt([
     {
@@ -27,13 +22,18 @@ export default async function createRelease() {
     },
   ]);
 
+  // Read tag
+  const tag = await inquirer.prompt([
+    { type: "input", name: "value", message: "Enter the tag for the release:" },
+  ]);
+
   // Read release type
   const versionUpgradeType = await inquirer.prompt([
     {
       type: "list",
       name: "value",
       message: "Choose your version upgrade type:",
-      choices: ["major", "minor", "patch"],
+      choices: ["patch", "minor", "major"],
     },
   ]);
 
@@ -108,20 +108,15 @@ export default async function createRelease() {
     logger.info("VersionUpgradeType added to config.");
   }
 
-  // Success message
-  console.log(
-    chalk.cyan.bold(
-      "\n-----------------------------------------------------------------------"
-    )
-  );
-  console.log(
-    chalk.white.bold(
-      "You can now stage the changes just created and push to release branch for release."
-    )
-  );
-  console.log(
-    chalk.cyan.bold(
-      "-----------------------------------------------------------------------\n"
-    )
-  );
+  console.log(`
+${chalk.cyan.bold(
+  "\n----------------------------------------------------------------------------------------------------------------------------------------------"
+)}
+${chalk.white.bold(
+  "You can now stage the changes just created and push to the release branch to trigger the release workflow."
+)}
+${chalk.cyan.bold(
+  "----------------------------------------------------------------------------------------------------------------------------------------------\n"
+)}
+`);
 }

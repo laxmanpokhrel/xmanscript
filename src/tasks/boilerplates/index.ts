@@ -5,10 +5,10 @@ import backend from "./backend";
 import { fileExists, logger } from "@/src/utils";
 
 export default async function boilerplates() {
-  //   if (fileExists("package.json")) {
-  //     logger.error("Project already exists, please choose an empty directory");
-  //     process.exit(0);
-  //   }
+  if (fileExists("package.json")) {
+    logger.error("Project already exists, please choose an empty directory");
+    process.exit(0);
+  }
   // Ask for boilerplates options
   const boilerplateChoice = await inquirer.prompt([
     {
