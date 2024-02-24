@@ -1,6 +1,6 @@
 {
   "name": "xmanscript",
-  "version": "2.0.0",
+  "version": "2.1.1",
   "description": "CLI for xmanscript tools",
   "type": "module",
   "module": "es2020",
