@@ -1,6 +1,6 @@
 {
   "name": "xmanscript",
-  "version": "2.1.1",
+  "version": "2.1.2",
   "description": "CLI for xmanscript tools",
   "type": "module",
   "module": "es2020",
@@ -14,7 +14,7 @@
   },
   "exports": "./dist/index.js",
   "bin": {
-    "xmanscript": "dist/index.js"
+    "xmanscript-test": "dist/index.js"
   },
   "repository": {
     "type": "git",
