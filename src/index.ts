@@ -21,10 +21,10 @@ async function main() {
       showAvailableFlags();
       process.exit(0);
     } else if (flags["create-release-data"]) {
-      createRelease();
+      await createRelease();
       process.exit(0);
     } else if (flags["create-release-action"]) {
-      createReleaseWorkflow();
+      await createReleaseWorkflow();
       process.exit(0);
     } else {
       console.error("Flag not available.");
