@@ -49,3 +49,28 @@
 - FINAL_RELEASE_VERSION: 2.1.0
 - RELEASE_TYPE:minor
 - TAG:v-2.1.0
+==========================================================
+=                                                        =
+==========================================================
+- reading config.json file
+- '.release/config.json' file found
+- reading 'versionUpgradeType'
+- 'versionUpgradeType': patch
+- reading package version from npm
+- package npm version: 2.1.1
+- analysing version
+- analysed deployable version 2.1.2
+- reading custom tag
+- no custom tag found
+- reading release notes
+---
+- RELEASE_NOTES: ## Fixes
+- Wait for flags task to complete before exit
+
+## Changes
+- Updated documentation
+- PACKAGE_NAME: xmanscript
+- PACKAGE_VERSION: 2.1.0
+- FINAL_RELEASE_VERSION: 2.1.2
+- RELEASE_TYPE:patch
+- TAG:v-2.1.2
