@@ -23,3 +23,4 @@ npx xmanscript --help
 The primary motivation behind the development of `xmanscript-cli` is to simplify and automate common tasks encountered during JavaScript project development. By abstracting away boilerplate code and configuration setup, developers can focus more on building features and less on repetitive setup tasks.
 
 Whether you're starting a new frontend or backend application or packaging and deploying an npm package, `xmanscript-cli` aims to streamline the process, making development more efficient and enjoyable.
+
