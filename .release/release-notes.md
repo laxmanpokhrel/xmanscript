@@ -1,2 +1,2 @@
 ## Presease to check if reading release type is working
-- no PR in prerelease
+- no PR in prerelease check
