@@ -99,9 +99,11 @@ jobs:
           gh release create "$tag" \
             --repo="$GITHUB_REPOSITORY" \
             --title="$title" \
-            --notes="${{ steps.read-release-props.outputs.release-notes }}"
+            --notes="${{ steps.read-release-props.outputs.release-notes }}" \
+            ${{steps.read-release-props.outputs.release-type}}
 
       - name: Push and raise a PR
+        if: steps.read-release-props.outcome.release-type != '--prerelease'
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
@@ -116,5 +118,4 @@ jobs:
           --base ${{steps.branch-checkout-details.outputs.current_branch}} \
           --title "version ${{steps.read-release-props.outputs.final-release-version}}" \
           --body "* version: ${{steps.read-release-props.outputs.final-release-version}} | $(date -u +"%Y-%m-%d %H:%M:%S")" \
-          --no-maintainer-edit \
-          ${{steps.read-release-props.outputs.release-type}}
+          --no-maintainer-edit
