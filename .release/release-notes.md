@@ -1,5 +1,1 @@
-## Fixes
-- Wait for flags task to complete before exit
-
-## Changes
-- Updated documentation
+## Presease to check if reading release type is working
