@@ -28,6 +28,15 @@ export default async function createRelease() {
   ]);
 
   // Read release type
+  const releaseType = await inquirer.prompt([
+    {
+      type: "list",
+      name: "value",
+      message: "Choose your version upgrade type:",
+      choices: ["--latest (default)", "--prerelease"],
+    },
+  ]);
+  // Read version upgrade type
   const versionUpgradeType = await inquirer.prompt([
     {
       type: "list",
@@ -58,13 +67,13 @@ export default async function createRelease() {
     return; // Exit function if there's an error creating the directory
   }
 
-  // 1. If there are releaseNotes then create a file named .release/release-notes.md
+  // If there are releaseNotes then create a file named .release/release-notes.md
   if (releaseNotes.value) {
     await writeFileAsync(".release/release-notes.md", releaseNotes.value);
     logger.info("Release notes saved.");
   }
 
-  // 2. If there is a tag, add the tag to .release/config.json
+  // If there is a tag, add the tag to .release/config.json
   if (tag.value.length) {
     const config = { tag: tag.value };
     await writeFileAsync(
@@ -74,7 +83,7 @@ export default async function createRelease() {
     logger.info("Tag added to config.");
   }
 
-  // 3. If there is a versionUpgradeType, add the versionUpgradeType to .release/config.json
+  // If there is a versionUpgradeType, add the versionUpgradeType to .release/config.json
   if (versionUpgradeType.value) {
     try {
       await accessAsync(".release/config.json", fs.constants.F_OK);
@@ -100,6 +109,40 @@ export default async function createRelease() {
     const config = {
       ...configFile,
       versionUpgradeType: versionUpgradeType.value,
+    };
+    await writeFileAsync(
+      ".release/config.json",
+      JSON.stringify(config, null, 2)
+    );
+    logger.info("VersionUpgradeType added to config.");
+  }
+
+  // If there is a release type, add the releaseType to .release/config.json
+  if (releaseType.value) {
+    try {
+      await accessAsync(".release/config.json", fs.constants.F_OK);
+    } catch (error) {
+      if (error.code === "ENOENT") {
+        // File doesn't exist, create it with default content
+
+        const defaultConfig = { releaseType: "--latest" };
+        await writeFileAsync(
+          ".release/config.json",
+          JSON.stringify(defaultConfig, null, 2)
+        );
+        logger.info("Config file created.");
+      }
+    }
+
+    const configFileContent = await readFileAsync(
+      ".release/config.json",
+      "utf-8"
+    );
+
+    const configFile = JSON.parse(configFileContent);
+    const config = {
+      ...configFile,
+      releaseType: releaseType.value.split(" ")[0],
     };
     await writeFileAsync(
       ".release/config.json",

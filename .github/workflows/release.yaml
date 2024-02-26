@@ -42,6 +42,7 @@ jobs:
           git config --global user.email $USER_EMAIL
 
       - name: Commit logs
+        continue-on-error: true
         run: |
           git add .
           git commit -m "ci: Release props logs generated."
@@ -51,15 +52,6 @@ jobs:
         with:
           name: get-release-props-logs
           path: get-release-props-logs.log
-
-      - name: Debug variables
-        run: |
-          echo "tag=${{steps.read-release-props.outputs.tag}}"
-          echo "release-notes=${{steps.read-release-props.outputs.release-notes}}"
-          echo "package-version: ${{steps.read-release-props.outputs.package-version}}"
-          echo "release-type: ${{steps.read-release-props.outputs.release-type}}"
-          echo "final-release-version: ${{steps.read-release-props.outputs.final-release-version}}"
-          echo "final-release-version: ${{steps.read-release-props.outputs.final-release-version}}"
 
       - name: Checkout to new branch and update package json with new version
         # if: steps.read-release-props.outcome.package-version != steps.read-release-props.outputs.final-release-version
@@ -124,4 +116,5 @@ jobs:
           --base ${{steps.branch-checkout-details.outputs.current_branch}} \
           --title "version ${{steps.read-release-props.outputs.final-release-version}}" \
           --body "* version: ${{steps.read-release-props.outputs.final-release-version}} | $(date -u +"%Y-%m-%d %H:%M:%S")" \
-          --no-maintainer-edit
+          --no-maintainer-edit \
+          ${{steps.read-release-props.outputs.release-type}}
