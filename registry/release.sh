@@ -48,8 +48,8 @@ if [ "$(echo "$RELEASE_CONFIG_FILE" | jq -r ".releaseType")" != "null" ]; then
 else
     RELEASE_TYPE=''
     echo "- no 'releaseType' provided"
-    echo "- abort"
-    exit 1
+    # echo "- abort"
+    # exit 1
 fi
 
 # Check if npm view command succeeded or failed
