@@ -67,9 +67,9 @@ export default async function createRelease() {
     return; // Exit function if there's an error creating the directory
   }
 
-  // If there are releaseNotes then create a file named .release/release-notes.md
+  // If there are releaseNotes then create a file named .release/release-notes.txt
   if (releaseNotes.value) {
-    await writeFileAsync(".release/release-notes.md", releaseNotes.value);
+    await writeFileAsync(".release/release-notes.txt", releaseNotes.value);
     logger.info("Release notes saved.");
   }
 

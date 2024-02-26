@@ -121,7 +121,7 @@ fi
 
 # Check if release notes are available
 echo "- reading release notes"
-RELEASE_NOTES=$(cat .release/release-notes.md)
+RELEASE_NOTES=$(cat .release/release-notes.txt)
 
 if [ $? != 0 ]; then
     echo "- release notes not provided"

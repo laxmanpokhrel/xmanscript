@@ -1,8 +1,9 @@
-name: Release Test
+name: Deploy and Release
 on:
+  workflow_dispatch:
   push:
     branches:
-      - <your_release_branch_name>
+      - main
     paths:
       - .release/*
 permissions:
@@ -13,7 +14,6 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout
       - name: Checkout
         uses: actions/checkout@v4
 
@@ -53,6 +53,16 @@ jobs:
           name: get-release-props-logs
           path: get-release-props-logs.log
 
+      - name: Debug variables
+        run: |
+          echo "tag=${{steps.read-release-props.outputs.tag}}"
+          echo "release-notes=${{steps.read-release-props.outputs.release-notes}}"
+          echo "package-version: ${{steps.read-release-props.outputs.package-version}}"
+          echo "release-type: ${{steps.read-release-props.outputs.release-type}}"
+          echo "final-release-version: ${{steps.read-release-props.outputs.final-release-version}}"
+          echo "release-type: ${{steps.read-release-props.outputs.release-type}}"
+          echo "isPrerelease: ${{steps.read-release-props.outputs.release-type}} == '--prerelease'"
+
       - name: Checkout to new branch and update package json with new version
         id: branch-checkout-details
         run: |
@@ -71,6 +81,9 @@ jobs:
           # Set output
           echo "current_branch=$(echo $current_branch)" >>$GITHUB_OUTPUT
           echo "checkout_branch_name=$(echo $checkout_branch_name)" >>$GITHUB_OUTPUT
+
+      - name: Check branch
+        run: git branch
 
       - name: Install package
         run: yarn install
@@ -94,9 +107,11 @@ jobs:
           gh release create "$tag" \
             --repo="$GITHUB_REPOSITORY" \
             --title="$title" \
-            --notes="${{ steps.read-release-props.outputs.release-notes }}"
+            --notes="${{ steps.read-release-props.outputs.release-notes }}" \
+            ${{steps.read-release-props.outputs.release-type}}
 
       - name: Push and raise a PR
+        if: ${{steps.read-release-props.outputs.release-type != '--prerelease'}}
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
