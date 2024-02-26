@@ -111,7 +111,7 @@ jobs:
             ${{steps.read-release-props.outputs.release-type}}
 
       - name: Push and raise a PR
-        if: ${{steps.read-release-props.outcome.release-type != '--prerelease'}}
+        if: ${{steps.read-release-props.outputs.release-type != '--prerelease'}}
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
