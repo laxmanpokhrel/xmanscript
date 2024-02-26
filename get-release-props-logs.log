@@ -99,3 +99,28 @@
 - VERSION_UPGRADE_TYPE: patch
 - TAG: v-2.1.4
 - RELEASE_TYPE: --prerelease
+==========================================================
+=                                                        =
+==========================================================
+- reading config.json file
+- '.release/config.json' file found
+- reading 'versionUpgradeType'
+- 'versionUpgradeType': patch
+- reading 'releaseType'
+- 'releaseType': --prerelease
+- reading package version from npm
+- package npm version: 2.1.4
+- analysing version
+- analysed deployable version 2.1.5
+- reading custom tag
+- no custom tag found
+- reading release notes
+---
+- RELEASE_NOTES: ## Presease to check if reading release type is working
+- no PR in prerelease check
+- PACKAGE_NAME: xmanscript
+- PACKAGE_VERSION: 2.1.4
+- FINAL_RELEASE_VERSION: 2.1.5
+- VERSION_UPGRADE_TYPE: patch
+- TAG: v-2.1.5
+- RELEASE_TYPE: --prerelease
