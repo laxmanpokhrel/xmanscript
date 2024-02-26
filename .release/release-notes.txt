@@ -1,3 +1,6 @@
 ## Changes
 - Conditional step for creatinf pr only if release is non prerelease
 - Release notes in .txt file
+
+## Fixes 
+- Error when no release type
