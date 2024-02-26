@@ -149,3 +149,32 @@
 - VERSION_UPGRADE_TYPE: patch
 - TAG: v-2.1.6
 - RELEASE_TYPE: --prerelease
+==========================================================
+=                                                        =
+==========================================================
+- reading config.json file
+- '.release/config.json' file found
+- reading 'versionUpgradeType'
+- 'versionUpgradeType': minor
+- reading 'releaseType'
+- no 'releaseType' provided
+- reading package version from npm
+- package npm version: 2.1.7
+- analysing version
+- analysed deployable version 2.2.0
+- reading custom tag
+- no custom tag found
+- reading release notes
+---
+- RELEASE_NOTES: ## Changes
+- Conditional step for creatinf pr only if release is non prerelease
+- Release notes in .txt file
+
+## Fixes 
+- Error when no release type
+- PACKAGE_NAME: xmanscript
+- PACKAGE_VERSION: 2.1.6
+- FINAL_RELEASE_VERSION: 2.2.0
+- VERSION_UPGRADE_TYPE: minor
+- TAG: v-2.2.0
+- RELEASE_TYPE: 
